@@ -1,0 +1,16 @@
+Geo-backfilled 135 events with lat/lon from country name
+Total events now with lat/lon: 131
+
+=== Cert Collector ===
+Fetched 50 cert updates
+Saved 50 cert updates
+  [NIST] Celebrating Two Years of CSF 2.0!
+  [NIST] Celebrating Data Privacy Week with NIST’s Privacy Engineering Program
+  [NIST] Digital Identities: Getting to Know the Verifiable Digital Credential Ecosystem
+  [NIST] A NICE Retrospective on Shaping Cybersecurity’s Future
+  [NIST] Sharpening the Focus on Product Requirements and Cybersecurity Risks: Updating F
+  [NIST] Let’s get Digital! Updated Digital Identity Guidelines are Here!
+  [NIST] Reflections from the First Cyber AI Profile Workshop
+  [NIST] Nine Years and Counting: NICE RAMPS Communities Keep Expanding Opportunities in 
+  [NIST] The Impact of Artificial Intelligence on the Cybersecurity Workforce
+  [NIST] Cybersecurity and AI: Integrating and Building on Existing NIST Guidelines

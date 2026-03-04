@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cyber-accent: #00d8ff;
+  --cyber-green:  #00ff9d;
+  --cyber-red:    #ff4560;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+  body { background-color: #0a0e1a; color: #e2e8f0; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #0d1224; }
+  ::-webkit-scrollbar-thumb { background: #243044; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #00d8ff44; }
+}
+
+@layer components {
+  .panel {
+    @apply bg-cyber-800 border border-cyber-600 rounded-xl p-4;
+  }
+  .glow-accent {
+    box-shadow: 0 0 15px rgba(0,216,255,0.3);
+  }
+  .live-pulse::before {
+    content: "";
+    @apply absolute inline-block w-2 h-2 bg-cyber-green rounded-full;
+    animation: ping 1.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold;
+  }
+}
+
+.leaflet-container { background: #0a0e1a !important; }
