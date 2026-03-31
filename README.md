@@ -109,3 +109,5 @@ cyberverse/
     ├── package.json
     └── Dockerfile
 ```
+
+To setup follow the instructions.
