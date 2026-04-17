@@ -21,8 +21,8 @@ cp backend/.env.example backend/.env
 docker compose up --build
 ```
 
-- **Dashboard** → http://localhost:3000
-- **API docs**  → http://localhost:8000/docs
+- **Dashboard** → http://localhost:1337
+- **API docs**  → http://localhost:8443/docs
 - **pgAdmin**   → `docker compose --profile dev up` → http://localhost:5050
 
 ## Local Development
@@ -35,7 +35,7 @@ pip install -r requirements.txt
 cp .env.example .env
 # Edit DATABASE_URL in .env to point to your local Postgres
 alembic upgrade head
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --port 8443
 ```
 
 ### Frontend
@@ -45,16 +45,31 @@ npm install
 npm run dev          # → http://localhost:5173
 ```
 
+## Port Details
+
+| Service | Docker Service | Host Port | Container Port | Access | Purpose |
+|---------|----------------|-----------|----------------|--------|---------|
+| Frontend (Nginx) | `frontend` | `1337` | `80` | http://localhost:1337 | Serves Vue SPA and proxies `/api/*` |
+| Backend (FastAPI) | `backend` | `8443` | `8000` | http://localhost:8443 (`/docs`) | REST API (`/api/v1/*`) |
+| PostgreSQL | `postgres` | `5432` | `5432` | localhost:5432 | Primary database |
+| pgAdmin (dev profile) | `pgadmin` | `5050` | `80` | http://localhost:5050 | Database admin UI |
+
+Notes:
+- Frontend to backend flow: browser hits `1337`, and Nginx forwards API calls to backend `8443`.
+- `pgAdmin` only runs when dev profile is enabled: `docker compose --profile dev up`.
+- Local frontend development uses Vite on `5173` (`npm run dev`), not Docker port `1337`.
+
 ## Data Sources (free, no API key required)
 
 | Category       | Sources |
 |----------------|---------|
-| Security News  | Hacker News, Dark Reading, Bleeping Computer, Krebs, CyberScoop, SC Magazine, CISA |
-| AI / Tech News | TechCrunch AI, VentureBeat, MIT Tech Review, Wired, BBC Technology |
+| Security News  | 79 RSS feeds — Hacker News, Dark Reading, Bleeping Computer, Krebs, CyberScoop, Mandiant, Trend Micro, Proofpoint, Elastic, CISA, NSA, FBI, Europol, + many more |
+| Google News    | 20 cybersecurity topic queries via Google News RSS (ransomware, zero-day, APT, supply chain, etc.) |
 | CVE / Threats  | NVD REST API v2 (48h rolling window) |
-| Geo News       | GDELT 2.0 DOC API |
+| Geo News       | GDELT 2.0 DOC API (20 queries, 50 articles each, 72h window) |
 | Financial      | yFinance (18 tickers: PANW, CRWD, FTNT, NVDA, MSFT, GOOGL, ...) |
-| Certifications | NIST, ENISA, CISA, OWASP, FIRST, ISC2, ISACA, IEEE, OECD AI |
+| Certifications | 13 feeds — NIST, ENISA, CISA, OWASP, FIRST, ISC2, ISACA, NCSC UK/NL, CERT-FR, JPCERT, ACSC, CERT-IN, KrCERT |
+| AI / Tech News | TechCrunch AI, VentureBeat, MIT Tech Review, Wired, BBC Technology, The Verge, Ars Technica |
 
 ## Optional API Keys (adds more data)
 
@@ -86,7 +101,7 @@ GET /health                      Health check
 cyberverse/
 ├── backend/
 │   ├── app/
-│   │   ├── collectors/      RSS, GDELT, CVE, Financial, YouTube, Cert
+│   │   ├── collectors/      RSS (79), Google News (20), GDELT (20), CVE, Financial, YouTube, Cert (13)
 │   │   ├── models/          SQLAlchemy ORM models
 │   │   ├── schemas/         Pydantic v2 schemas
 │   │   ├── routers/         FastAPI route handlers
@@ -109,5 +124,15 @@ cyberverse/
     ├── package.json
     └── Dockerfile
 ```
+
+## Scheduler Intervals
+
+| Collector | Interval |
+|-----------|----------|
+| RSS + Google News + GDELT + Certs | Every 15 min |
+| CVE (NVD) | Every 30 min |
+| Financial (yFinance) | Every 60 min |
+
+---
 
 To setup follow the instructions.
