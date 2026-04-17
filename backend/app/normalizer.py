@@ -64,6 +64,49 @@ def _auto_tags(title: str, summary: str, existing_tags: list[str] | None = None)
     return tags[:12]  # cap to avoid bloat
 
 
+_COUNTRY_COORDS: dict[str, tuple[float, float]] = {
+    "United States": (37.09, -95.71), "United Kingdom": (55.37, -3.43),
+    "European Union": (50.85, 4.35), "Germany": (51.16, 10.45),
+    "France": (46.22, 2.21), "Netherlands": (52.13, 5.29),
+    "Russia": (61.52, 105.32), "China": (35.86, 104.19),
+    "Japan": (36.20, 138.25), "Australia": (-25.27, 133.77),
+    "India": (20.59, 78.96), "South Korea": (35.90, 127.76),
+    "Israel": (31.04, 34.85), "Iran": (32.42, 53.68),
+    "North Korea": (40.34, 127.51), "Canada": (56.13, -106.34),
+    "Singapore": (1.35, 103.81), "Brazil": (-14.23, -51.92),
+    "Taiwan": (23.69, 120.96), "Ukraine": (48.37, 31.16),
+    "Turkey": (38.96, 35.24), "Saudi Arabia": (23.88, 45.07),
+    "UAE": (23.42, 53.84), "South Africa": (-30.55, 22.93),
+    "Nigeria": (9.08, 8.67), "Mexico": (23.63, -102.55),
+    "Poland": (51.91, 19.14), "Italy": (41.87, 12.56),
+    "Spain": (40.46, -3.74), "Switzerland": (46.81, 8.22),
+    "Sweden": (60.12, 18.64), "Norway": (60.47, 8.46),
+    "Finland": (61.92, 25.74), "Denmark": (56.26, 9.50),
+    "Belgium": (50.50, 4.46), "Austria": (47.51, 14.55),
+    "Romania": (45.94, 24.96), "Greece": (39.07, 21.82),
+    "Indonesia": (-0.78, 113.92), "Malaysia": (4.21, 101.97),
+    "Pakistan": (30.37, 69.34), "Egypt": (26.82, 30.80),
+    "Hong Kong": (22.39, 114.10), "Cyprus": (35.12, 33.42),
+    "Philippines": (12.88, 121.77), "Thailand": (15.87, 100.99),
+    "Bangladesh": (23.68, 90.35), "New Zealand": (-40.90, 174.89),
+    "Czech Republic": (49.82, 15.47), "Sri Lanka": (7.87, 80.77),
+    "Malta": (35.94, 14.37), "Azerbaijan": (40.14, 47.57),
+    "Morocco": (31.79, -7.09), "Chile": (-35.68, -71.54),
+    "Kenya": (0.02, 37.91), "Ghana": (7.95, -1.02),
+    "Myanmar": (21.91, 95.96), "Syria": (34.80, 38.99),
+    "Jamaica": (18.11, -77.29), "Bahamas": (25.03, -77.39),
+    "Bosnia-Herzegovina": (43.92, 17.68), "Madagascar": (-18.77, 46.87),
+    "Colombia": (4.57, -74.30), "Argentina": (-38.42, -63.62),
+    "Peru": (-9.19, -75.02), "Vietnam": (14.06, 108.28),
+    "Cambodia": (12.57, 104.99), "Nepal": (28.39, 84.12),
+    "Iraq": (33.22, 43.68), "Jordan": (30.59, 36.24),
+    "Lebanon": (33.85, 35.86), "Qatar": (25.35, 51.18),
+    "Kuwait": (29.31, 47.48), "Oman": (21.47, 55.98),
+    "Ethiopia": (9.14, 40.49), "Tanzania": (-6.37, 34.89),
+    "Uganda": (1.37, 32.29), "Mozambique": (-18.67, 35.53),
+}
+
+
 def _detect_country(title: str, summary: str, source_name: str) -> str | None:
     """Detect country/region from content keywords."""
     combined = (title + " " + (summary or "") + " " + (source_name or "")).lower()
@@ -71,6 +114,13 @@ def _detect_country(title: str, summary: str, source_name: str) -> str | None:
         if any(kw in combined for kw in keywords):
             return region
     return None
+
+
+def _geo_coords(country: str | None) -> tuple[float | None, float | None]:
+    """Look up lat/lng for a detected country name."""
+    if country and country in _COUNTRY_COORDS:
+        return _COUNTRY_COORDS[country]
+    return (None, None)
 
 
 def _title_hash(title: str) -> str:
@@ -113,6 +163,11 @@ async def upsert_events(session: AsyncSession, rows: list[dict[str, Any]]) -> in
         # Strategy §5: geography detection
         if not raw.get("country"):
             raw["country"] = _detect_country(title, summary, source_name)
+        # Geo-coordinate lookup for map integration
+        if raw.get("country") and not raw.get("latitude"):
+            lat, lng = _geo_coords(raw["country"])
+            raw["latitude"] = lat
+            raw["longitude"] = lng
 
         raw.setdefault("sentiment_score", score_sentiment(title + " " + summary))
         raw.setdefault("impact_score", score_impact(title, summary, raw.get("category_tags", [])))
