@@ -1,6 +1,7 @@
 import asyncio
 from datetime import datetime, timezone
 from typing import Any
+from urllib.parse import quote
 import httpx
 from app.collectors.base import BaseCollector
 
@@ -23,22 +24,31 @@ COUNTRY_COORDS: dict[str, tuple[float, float]] = {
 
 GDELT_DOC_API = "https://api.gdeltproject.org/api/v2/doc/doc"
 QUERIES = [
-    # Generic / ongoing
-    ("cybersecurity attack hacker",      ["cybersecurity", "attack"]),
-    ("ransomware",                        ["ransomware", "malware"]),
-    ("data breach",                       ["data-breach", "privacy"]),
-    ("AI artificial intelligence policy", ["ai", "policy"]),
-    ("AI ethics regulation",              ["ai-ethics", "regulation"]),
-    # European / Dutch incidents
-    ("Odido telecom attack Netherlands",  ["odido", "telecom", "netherlands"]),
-    ("NCSC Netherlands cyber",           ["ncsc", "netherlands", "cybersecurity"]),
-    ("European cyber attack telecom",    ["europe", "telecom", "attack"]),
-    # Recent major attack categories
+    # ── Global / ongoing threats ────────────────────────────────────────────
+    ("cybersecurity attack hacker",        ["cybersecurity", "attack"]),
+    ("ransomware",                          ["ransomware", "malware"]),
+    ("data breach",                         ["data-breach", "privacy"]),
+    ("zero day vulnerability exploit",      ["zero-day", "exploit"]),
+    ("supply chain attack software",        ["supply-chain", "attack"]),
     ("critical infrastructure cyberattack", ["critical-infrastructure", "attack"]),
     ("DDoS distributed denial service",     ["ddos", "attack"]),
-    ("supply chain attack software",        ["supply-chain", "attack"]),
-    ("zero day vulnerability exploit",      ["zero-day", "exploit"]),
-    ("nation state hacking espionage",      ["nation-state", "espionage"]),
+    ("state sponsored cyber espionage",      ["nation-state", "espionage"]),
+    # ── AI & Policy ─────────────────────────────────────────────────────────
+    ("artificial intelligence regulation",  ["ai", "policy"]),
+    ("artificial intelligence cybersecurity",["ai-ethics", "regulation"]),
+    # ── NAM / Americas ──────────────────────────────────────────────────────
+    ("CISA cybersecurity United States",    ["cisa", "usa", "cybersecurity"]),
+    ("Canada cyber attack",                 ["canada", "cybersecurity", "attack"]),
+    # ── EMEA / Europe ───────────────────────────────────────────────────────
+    ("European cyber attack telecom",       ["europe", "telecom", "attack"]),
+    ("Netherlands cybersecurity threat",     ["ncsc", "netherlands", "cybersecurity"]),
+    # ── APAC ────────────────────────────────────────────────────────────────
+    ("Japan cybersecurity threat",           ["japan", "cybersecurity", "attack"]),
+    ("Australia cybersecurity threat",       ["australia", "cybersecurity", "attack"]),
+    ("India cyber attack CERT",             ["india", "cybersecurity", "attack"]),
+    ("Singapore cyber security",            ["singapore", "cybersecurity"]),
+    ("South Korea cyber attack",            ["south-korea", "cybersecurity", "attack"]),
+    ("China cyber threat",                  ["china", "apt", "espionage"]),
 ]
 
 
@@ -48,13 +58,25 @@ class GDELTCollector(BaseCollector):
         async with httpx.AsyncClient(timeout=30.0) as client:
             for q, tags in QUERIES:
                 try:
-                    resp = await client.get(GDELT_DOC_API, params={
-                        "query": q, "mode": "artlist", "maxrecords": "50",
-                        "timespan": "72h", "sort": "hybridrel", "format": "json",
-                    })
-                    if resp.status_code != 200:
+                    resp = None
+                    for attempt in range(3):
+                        resp = await client.get(GDELT_DOC_API, params={
+                            "query": q, "mode": "artlist", "maxrecords": "50",
+                            "timespan": "72h", "sort": "hybridrel", "format": "json",
+                        })
+                        if resp.status_code == 429:
+                            wait = 5 * (2 ** attempt)
+                            print(f"[GDELT] Rate limited on {q!r}, retrying in {wait}s (attempt {attempt + 1}/3)")
+                            await asyncio.sleep(wait)
+                            continue
+                        break
+                    if resp is None or resp.status_code != 200:
                         continue
-                    data = resp.json()
+                    try:
+                        data = resp.json()
+                    except Exception:
+                        print(f"[GDELT] Non-JSON response for {q!r}")
+                        continue
                     for art in (data.get("articles") or []):
                         url = art.get("url", "")
                         title = art.get("title", "")
@@ -69,9 +91,11 @@ class GDELTCollector(BaseCollector):
                             pub = datetime.now(timezone.utc)
                         _country = art.get("sourcecountry") or ""
                         _coords = COUNTRY_COORDS.get(_country, (None, None))
+                        # Use socialimage excerpt or title as summary fallback
+                        _summary = (art.get("title") or "")[:512]
                         results.append({
                             "title": title[:512],
-                            "summary": art.get("seendate", ""),
+                            "summary": _summary,
                             "source_url": url[:1024],
                             "source_name": art.get("domain", "GDELT")[:128],
                             "event_type": "NEWS",
@@ -85,4 +109,5 @@ class GDELTCollector(BaseCollector):
                         })
                 except Exception as exc:
                     print(f"[GDELT] query={q!r} error: {exc}")
+                await asyncio.sleep(8)
         return results

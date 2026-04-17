@@ -8,10 +8,11 @@ export const useIntelligenceStore = defineStore("intelligence", () => {
   const topEvents  = ref<IntelligenceEvent[]>([]);
   const mapEvents  = ref<IntelligenceEvent[]>([]);
   const stats      = ref<DashboardStats | null>(null);
+  const sources    = ref<{ name: string; count: number }[]>([]);
   const loading    = ref(false);
   const total      = ref(0);
   const page       = ref(1);
-  const filters    = ref({ event_type: "", country: "", search: "", min_impact: null as number | null });
+  const filters    = ref({ event_type: "", country: "", search: "", source_name: "", min_impact: null as number | null });
 
   async function fetchEvents(params?: Record<string, unknown>) {
     loading.value = true;
@@ -37,7 +38,12 @@ export const useIntelligenceStore = defineStore("intelligence", () => {
     stats.value = data;
   }
 
+  async function fetchSources() {
+    const { data } = await intelligenceApi.sources();
+    sources.value = data.sources;
+  }
+
   const totalPages = computed(() => Math.ceil(total.value / 20));
 
-  return { events, topEvents, mapEvents, stats, loading, total, page, filters, totalPages, fetchEvents, fetchTopEvents, fetchMapEvents, fetchStats };
+  return { events, topEvents, mapEvents, stats, sources, loading, total, page, filters, totalPages, fetchEvents, fetchTopEvents, fetchMapEvents, fetchStats, fetchSources };
 });

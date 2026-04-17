@@ -1,0 +1,672 @@
+{
+  "total": 95,
+  "passes": 93,
+  "failures": 2,
+  "results": [
+    {
+      "phase": "1.1",
+      "test_id": "rss_The Hacker News",
+      "name": "The Hacker News",
+      "status": "pass",
+      "detail": "HTTP 200, 50 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_Dark Reading",
+      "name": "Dark Reading",
+      "status": "pass",
+      "detail": "HTTP 200, 50 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_Krebs on Security",
+      "name": "Krebs on Security",
+      "status": "pass",
+      "detail": "HTTP 200, 10 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_CyberScoop",
+      "name": "CyberScoop",
+      "status": "pass",
+      "detail": "HTTP 200, 10 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_SANS ISC",
+      "name": "SANS ISC",
+      "status": "pass",
+      "detail": "HTTP 200, 10 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_Recorded Future",
+      "name": "Recorded Future",
+      "status": "pass",
+      "detail": "HTTP 200, 50 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_BleepingComputer",
+      "name": "BleepingComputer",
+      "status": "pass",
+      "detail": "HTTP 200, 15 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_The Record",
+      "name": "The Record",
+      "status": "pass",
+      "detail": "HTTP 200, 5 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_CSO Online",
+      "name": "CSO Online",
+      "status": "pass",
+      "detail": "HTTP 200, 20 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_TechCrunch AI",
+      "name": "TechCrunch AI",
+      "status": "pass",
+      "detail": "HTTP 200, 20 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_VentureBeat AI",
+      "name": "VentureBeat AI",
+      "status": "pass",
+      "detail": "HTTP 200, 7 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_MIT Tech Review",
+      "name": "MIT Tech Review",
+      "status": "pass",
+      "detail": "HTTP 200, 10 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_Hacker News YC",
+      "name": "Hacker News YC",
+      "status": "pass",
+      "detail": "HTTP 200, 20 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_NIST",
+      "name": "NIST",
+      "status": "pass",
+      "detail": "HTTP 200, 40 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_AI Now Institute",
+      "name": "AI Now Institute",
+      "status": "pass",
+      "detail": "HTTP 200, 10 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_Security Affairs",
+      "name": "Security Affairs",
+      "status": "pass",
+      "detail": "HTTP 200, 10 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_Infosecurity Mag",
+      "name": "Infosecurity Mag",
+      "status": "pass",
+      "detail": "HTTP 200, 250 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_NCSC UK",
+      "name": "NCSC UK",
+      "status": "pass",
+      "detail": "HTTP 200, 20 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_NCSC NL",
+      "name": "NCSC NL",
+      "status": "pass",
+      "detail": "HTTP 200, 25 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_Wired Security",
+      "name": "Wired Security",
+      "status": "pass",
+      "detail": "HTTP 200, 20 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_BBC Tech",
+      "name": "BBC Tech",
+      "status": "pass",
+      "detail": "HTTP 200, 21 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_ZDNet Security",
+      "name": "ZDNet Security",
+      "status": "pass",
+      "detail": "HTTP 200, 20 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_Hackread",
+      "name": "Hackread",
+      "status": "pass",
+      "detail": "HTTP 200, 10 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_Threatpost",
+      "name": "Threatpost",
+      "status": "pass",
+      "detail": "HTTP 200, 10 entries"
+    },
+    {
+      "phase": "1.1",
+      "test_id": "rss_JPCERT",
+      "name": "JPCERT",
+      "status": "pass",
+      "detail": "HTTP 200, 6 entries"
+    },
+    {
+      "phase": "1.2",
+      "test_id": "cert_NIST Cert",
+      "name": "NIST Cert",
+      "status": "pass",
+      "detail": "HTTP 200, 40 entries"
+    },
+    {
+      "phase": "1.2",
+      "test_id": "cert_SANS ISC Cert",
+      "name": "SANS ISC Cert",
+      "status": "pass",
+      "detail": "HTTP 200, 10 entries"
+    },
+    {
+      "phase": "1.2",
+      "test_id": "cert_OWASP",
+      "name": "OWASP",
+      "status": "pass",
+      "detail": "HTTP 200, 20 entries"
+    },
+    {
+      "phase": "1.2",
+      "test_id": "cert_FIRST",
+      "name": "FIRST",
+      "status": "pass",
+      "detail": "HTTP 200, 100 entries"
+    },
+    {
+      "phase": "1.2",
+      "test_id": "cert_NCSC UK Cert",
+      "name": "NCSC UK Cert",
+      "status": "pass",
+      "detail": "HTTP 200, 20 entries"
+    },
+    {
+      "phase": "1.2",
+      "test_id": "cert_NCSC NL Cert",
+      "name": "NCSC NL Cert",
+      "status": "pass",
+      "detail": "HTTP 200, 25 entries"
+    },
+    {
+      "phase": "1.2",
+      "test_id": "cert_JPCERT Cert",
+      "name": "JPCERT Cert",
+      "status": "pass",
+      "detail": "HTTP 200, 6 entries"
+    },
+    {
+      "phase": "1.3",
+      "test_id": "nvd_api",
+      "name": "NVD API",
+      "status": "pass",
+      "detail": "HTTP 200, 5 CVEs, format OK (CVE-1999-0095)"
+    },
+    {
+      "phase": "1.4",
+      "test_id": "gdelt_cybersecurity attack hacker",
+      "name": "GDELT: cybersecurity attack hacker",
+      "status": "fail",
+      "detail": "HTTP 429 (attempt 4/4, waiting 80s)"
+    },
+    {
+      "phase": "1.4",
+      "test_id": "gdelt_ransomware",
+      "name": "GDELT: ransomware",
+      "status": "pass",
+      "detail": "5 articles"
+    },
+    {
+      "phase": "1.4",
+      "test_id": "gdelt_data breach",
+      "name": "GDELT: data breach",
+      "status": "pass",
+      "detail": "5 articles"
+    },
+    {
+      "phase": "1.4",
+      "test_id": "gdelt_zero day vulnerability exploit",
+      "name": "GDELT: zero day vulnerability exploit",
+      "status": "pass",
+      "detail": "5 articles"
+    },
+    {
+      "phase": "1.4",
+      "test_id": "gdelt_artificial intelligence regula",
+      "name": "GDELT: artificial intelligence regulation",
+      "status": "pass",
+      "detail": "5 articles"
+    },
+    {
+      "phase": "1.4",
+      "test_id": "gdelt_CISA cybersecurity United Stat",
+      "name": "GDELT: CISA cybersecurity United States",
+      "status": "pass",
+      "detail": "3 articles"
+    },
+    {
+      "phase": "1.4",
+      "test_id": "gdelt_European cyber attack telecom",
+      "name": "GDELT: European cyber attack telecom",
+      "status": "pass",
+      "detail": "1 articles"
+    },
+    {
+      "phase": "1.4",
+      "test_id": "gdelt_Australia cybersecurity threat",
+      "name": "GDELT: Australia cybersecurity threat",
+      "status": "pass",
+      "detail": "5 articles"
+    },
+    {
+      "phase": "1.4",
+      "test_id": "gdelt_India cyber attack CERT",
+      "name": "GDELT: India cyber attack CERT",
+      "status": "pass",
+      "detail": "2 articles"
+    },
+    {
+      "phase": "1.4",
+      "test_id": "gdelt_Singapore cyber security",
+      "name": "GDELT: Singapore cyber security",
+      "status": "fail",
+      "detail": "HTTP 429 (attempt 4/4, waiting 80s)"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_PANW",
+      "name": "Yahoo: PANW",
+      "status": "pass",
+      "detail": "price=$167.85"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_CRWD",
+      "name": "Yahoo: CRWD",
+      "status": "pass",
+      "detail": "price=$423.95"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_FTNT",
+      "name": "Yahoo: FTNT",
+      "status": "pass",
+      "detail": "price=$81.84"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_CHKP",
+      "name": "Yahoo: CHKP",
+      "status": "pass",
+      "detail": "price=$136.43"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_OKTA",
+      "name": "Yahoo: OKTA",
+      "status": "pass",
+      "detail": "price=$72.25"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_RPD",
+      "name": "Yahoo: RPD",
+      "status": "pass",
+      "detail": "price=$5.68"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_S",
+      "name": "Yahoo: S",
+      "status": "pass",
+      "detail": "price=$14.02"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_TENB",
+      "name": "Yahoo: TENB",
+      "status": "pass",
+      "detail": "price=$19.35"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_ZS",
+      "name": "Yahoo: ZS",
+      "status": "pass",
+      "detail": "price=$134.68"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_NVDA",
+      "name": "Yahoo: NVDA",
+      "status": "pass",
+      "detail": "price=$201.68"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_MSFT",
+      "name": "Yahoo: MSFT",
+      "status": "pass",
+      "detail": "price=$422.79"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_GOOGL",
+      "name": "Yahoo: GOOGL",
+      "status": "pass",
+      "detail": "price=$341.68"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_META",
+      "name": "Yahoo: META",
+      "status": "pass",
+      "detail": "price=$688.55"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_AAPL",
+      "name": "Yahoo: AAPL",
+      "status": "pass",
+      "detail": "price=$270.23"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_IBM",
+      "name": "Yahoo: IBM",
+      "status": "pass",
+      "detail": "price=$253.47"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_AMZN",
+      "name": "Yahoo: AMZN",
+      "status": "pass",
+      "detail": "price=$250.56"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_PLTR",
+      "name": "Yahoo: PLTR",
+      "status": "pass",
+      "detail": "price=$146.39"
+    },
+    {
+      "phase": "1.5",
+      "test_id": "yf_AI",
+      "name": "Yahoo: AI",
+      "status": "pass",
+      "detail": "price=$9.24"
+    },
+    {
+      "phase": "5.0",
+      "test_id": "health",
+      "name": "Health endpoint",
+      "status": "pass",
+      "detail": "{'status': 'ok', 'version': '1.0.0'}"
+    },
+    {
+      "phase": "5.1",
+      "test_id": "intel_List events",
+      "name": "List events",
+      "status": "pass",
+      "detail": "1590 total, 5 items"
+    },
+    {
+      "phase": "5.1",
+      "test_id": "intel_Pagination p2",
+      "name": "Pagination p2",
+      "status": "pass",
+      "detail": "1590 total, 5 items"
+    },
+    {
+      "phase": "5.1",
+      "test_id": "intel_Filter event_type",
+      "name": "Filter event_type",
+      "status": "pass",
+      "detail": "1467 total, 20 items"
+    },
+    {
+      "phase": "5.1",
+      "test_id": "intel_Search keyword",
+      "name": "Search keyword",
+      "status": "pass",
+      "detail": "53 total, 20 items"
+    },
+    {
+      "phase": "5.1",
+      "test_id": "intel_Min impact",
+      "name": "Min impact",
+      "status": "pass",
+      "detail": "258 total, 20 items"
+    },
+    {
+      "phase": "5.1",
+      "test_id": "intel_Top by impact",
+      "name": "Top by impact",
+      "status": "pass",
+      "detail": "5 items"
+    },
+    {
+      "phase": "5.1",
+      "test_id": "intel_Map events",
+      "name": "Map events",
+      "status": "pass",
+      "detail": "364 items"
+    },
+    {
+      "phase": "5.1",
+      "test_id": "intel_Stats",
+      "name": "Stats",
+      "status": "pass",
+      "detail": "keys: ['total', 'by_type', 'top_countries']"
+    },
+    {
+      "phase": "5.1",
+      "test_id": "intel_pagesize_max",
+      "name": "page_size > 100 rejected",
+      "status": "pass",
+      "detail": "422 returned"
+    },
+    {
+      "phase": "5.1",
+      "test_id": "intel_page_zero",
+      "name": "page=0 rejected",
+      "status": "pass",
+      "detail": "422 returned"
+    },
+    {
+      "phase": "5.2",
+      "test_id": "threats_List threats",
+      "name": "List threats",
+      "status": "pass",
+      "detail": "597 total, 20 items"
+    },
+    {
+      "phase": "5.2",
+      "test_id": "threats_Filter severity",
+      "name": "Filter severity",
+      "status": "pass",
+      "detail": "73 total, 20 items"
+    },
+    {
+      "phase": "5.2",
+      "test_id": "threats_Filter min CVSS",
+      "name": "Filter min CVSS",
+      "status": "pass",
+      "detail": "73 total, 20 items"
+    },
+    {
+      "phase": "5.2",
+      "test_id": "threats_Search CVE",
+      "name": "Search CVE",
+      "status": "pass",
+      "detail": "13 total, 13 items"
+    },
+    {
+      "phase": "5.2",
+      "test_id": "threats_Critical endpoint",
+      "name": "Critical endpoint",
+      "status": "pass",
+      "detail": "10 items"
+    },
+    {
+      "phase": "5.3",
+      "test_id": "fin_Latest snapshots",
+      "name": "Latest snapshots",
+      "status": "pass",
+      "detail": "17 items"
+    },
+    {
+      "phase": "5.3",
+      "test_id": "fin_Sector cyber",
+      "name": "Sector cyber",
+      "status": "pass",
+      "detail": "8 items"
+    },
+    {
+      "phase": "5.3",
+      "test_id": "fin_Sector ai",
+      "name": "Sector ai",
+      "status": "pass",
+      "detail": "9 items"
+    },
+    {
+      "phase": "5.3",
+      "test_id": "fin_Ticker history",
+      "name": "Ticker history",
+      "status": "pass",
+      "detail": "3 items"
+    },
+    {
+      "phase": "5.3",
+      "test_id": "fin_Movers",
+      "name": "Movers",
+      "status": "pass",
+      "detail": "keys: ['gainers', 'losers']"
+    },
+    {
+      "phase": "5.3",
+      "test_id": "fin_Invalid ticker",
+      "name": "Invalid ticker",
+      "status": "pass",
+      "detail": "0 items"
+    },
+    {
+      "phase": "5.4",
+      "test_id": "streams_list",
+      "name": "List streams",
+      "status": "pass",
+      "detail": "0 streams"
+    },
+    {
+      "phase": "5.4",
+      "test_id": "streams_live",
+      "name": "Live only filter",
+      "status": "pass",
+      "detail": "0 live streams"
+    },
+    {
+      "phase": "5.5",
+      "test_id": "cert_List certs",
+      "name": "List certs",
+      "status": "pass",
+      "detail": "850 total, 20 items"
+    },
+    {
+      "phase": "5.5",
+      "test_id": "cert_Filter body",
+      "name": "Filter body",
+      "status": "pass",
+      "detail": "170 total, 20 items"
+    },
+    {
+      "phase": "5.5",
+      "test_id": "cert_Bodies list",
+      "name": "Bodies list",
+      "status": "pass",
+      "detail": "17 bodies"
+    },
+    {
+      "phase": "5.6",
+      "test_id": "cors_allowed",
+      "name": "CORS allowed origin",
+      "status": "pass",
+      "detail": "http://localhost:1337"
+    },
+    {
+      "phase": "5.6",
+      "test_id": "docs",
+      "name": "Swagger docs",
+      "status": "pass",
+      "detail": "Swagger UI loaded"
+    },
+    {
+      "phase": "7.1",
+      "test_id": "frontend",
+      "name": "Frontend reachable",
+      "status": "pass",
+      "detail": "HTTP 200, 532 bytes"
+    },
+    {
+      "phase": "7.1",
+      "test_id": "nginx_proxy",
+      "name": "Nginx API proxy",
+      "status": "pass",
+      "detail": "Proxied to backend OK"
+    },
+    {
+      "phase": "7.1",
+      "test_id": "spa_fallback",
+      "name": "SPA fallback",
+      "status": "pass",
+      "detail": "Returns index.html for SPA route"
+    },
+    {
+      "phase": "7.3",
+      "test_id": "sqli",
+      "name": "SQL injection blocked",
+      "status": "pass",
+      "detail": "Parameterized query, 0 results"
+    },
+    {
+      "phase": "7.3",
+      "test_id": "cors_block",
+      "name": "CORS blocks evil origin",
+      "status": "pass",
+      "detail": "ACAO=''"
+    }
+  ]
+}

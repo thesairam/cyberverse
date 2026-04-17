@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "postgresql+asyncpg://cyberverse:cyberverse@localhost:5432/cyberverse"
     DB_POOL_SIZE: int = 10
     DB_MAX_OVERFLOW: int = 20
-    CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:3000"]
+    CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:1337"]
     COLLECT_INTERVAL_MINUTES: int = 15
     FINANCIAL_INTERVAL_MINUTES: int = 60
     YOUTUBE_API_KEY: str = ""

@@ -30,7 +30,7 @@ services:
       postgres:
         condition: service_healthy
     ports:
-      - "8000:8000"
+      - "8443:8000"
     volumes:
       - ./backend:/app
 
@@ -42,7 +42,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "3000:80"
+      - "1337:80"
 
   pgadmin:
     image: dpage/pgadmin4

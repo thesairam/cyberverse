@@ -1,65 +1,105 @@
-import sys, asyncio, random, uuid
-from datetime import datetime, timezone, timedelta
+"""Seed financial data using REAL prices from Yahoo Finance v8 chart API.
+Uses direct HTTP calls to the chart endpoint to avoid yfinance rate limits.
+"""
+import sys, asyncio, uuid, time
+from datetime import datetime, timezone
 sys.path.insert(0, '/app')
+import httpx
 from app.database import AsyncSessionLocal
 from app.models.intelligence import FinancialSnapshot
 
-# Realistic price data as of early 2026
-STOCKS = [
-    ("PANW",  "Palo Alto Networks",   "cybersecurity", 185.40,  2.1),
-    ("CRWD",  "CrowdStrike",          "cybersecurity", 362.80,  1.8),
-    ("FTNT",  "Fortinet",             "cybersecurity",  71.20, -0.9),
-    ("CHKP",  "Check Point Software", "cybersecurity", 198.60,  0.4),
-    ("OKTA",  "Okta",                 "cybersecurity",  95.30, -1.5),
-    ("RPD",   "Rapid7",               "cybersecurity",  42.10, -0.3),
-    ("S",     "SentinelOne",          "cybersecurity",  22.80,  3.2),
-    ("CYBR",  "CyberArk",             "cybersecurity", 312.50,  1.1),
-    ("ZS",    "Zscaler",              "cybersecurity", 198.70,  0.7),
-    ("NVDA",  "NVIDIA",               "ai",           128.40,  4.5),
-    ("MSFT",  "Microsoft",            "ai",           420.60,  0.8),
-    ("GOOGL", "Alphabet",             "ai",           196.20,  1.2),
-    ("META",  "Meta Platforms",       "ai",           611.80,  2.3),
-    ("AAPL",  "Apple",                "ai",           237.30, -0.4),
-    ("IBM",   "IBM",                  "ai",           238.90,  0.6),
-    ("AMZN",  "Amazon",               "ai",           216.40,  1.7),
-    ("PLTR",  "Palantir",             "ai",            78.20,  5.1),
-    ("AI",    "C3.ai",                "ai",            34.60, -2.1),
+WATCHLIST = [
+    ("PANW",  "Palo Alto Networks",   "cybersecurity"),
+    ("CRWD",  "CrowdStrike",          "cybersecurity"),
+    ("FTNT",  "Fortinet",             "cybersecurity"),
+    ("CHKP",  "Check Point Software", "cybersecurity"),
+    ("OKTA",  "Okta",                 "cybersecurity"),
+    ("RPD",   "Rapid7",               "cybersecurity"),
+    ("S",     "SentinelOne",          "cybersecurity"),
+    ("CYBR",  "CyberArk",             "cybersecurity"),
+    ("ZS",    "Zscaler",              "cybersecurity"),
+    ("NVDA",  "NVIDIA",               "ai"),
+    ("MSFT",  "Microsoft",            "ai"),
+    ("GOOGL", "Alphabet",             "ai"),
+    ("META",  "Meta Platforms",       "ai"),
+    ("AAPL",  "Apple",                "ai"),
+    ("IBM",   "IBM",                  "ai"),
+    ("AMZN",  "Amazon",               "ai"),
+    ("PLTR",  "Palantir",             "ai"),
+    ("AI",    "C3.ai",                "ai"),
 ]
 
-MCAPS = {
-    "PANW": 57e9,  "CRWD": 87e9,  "FTNT": 52e9,  "CHKP": 18e9,
-    "OKTA": 12e9,  "RPD": 2.5e9,  "S": 6.5e9,   "CYBR": 12e9,
-    "ZS":   27e9,  "NVDA": 3.1e12,"MSFT": 3.1e12,"GOOGL": 2.4e12,
-    "META": 1.5e12,"AAPL": 3.6e12,"IBM": 220e9,  "AMZN": 2.3e12,
-    "PLTR": 165e9, "AI":   7.2e9,
-}
+CHART_API = "https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
+HEADERS = {"User-Agent": "Mozilla/5.0"}
+
+
+def _fetch_chart(client: httpx.Client, ticker: str, company: str, sector: str) -> dict | None:
+    try:
+        resp = client.get(
+            CHART_API.format(ticker=ticker),
+            params={"range": "2d", "interval": "1d"},
+        )
+        if resp.status_code != 200:
+            print(f"  {ticker}: HTTP {resp.status_code}")
+            return None
+        result = resp.json()["chart"]["result"][0]
+        meta = result.get("meta", {})
+        quote = result["indicators"]["quote"][0]
+        closes = quote.get("close", [])
+        opens = quote.get("open", [])
+        highs = quote.get("high", [])
+        lows = quote.get("low", [])
+        volumes = quote.get("volume", [])
+        if not closes or closes[-1] is None:
+            print(f"  {ticker}: no close data")
+            return None
+        price = round(closes[-1], 2)
+        prev_close = closes[-2] if len(closes) > 1 and closes[-2] is not None else price
+        change_pct = round((price - prev_close) / prev_close * 100, 4) if prev_close else 0.0
+        return {
+            "ticker": ticker,
+            "company_name": company,
+            "sector": sector,
+            "price": price,
+            "open_price": round(opens[-1], 2) if opens and opens[-1] is not None else price,
+            "high": round(highs[-1], 2) if highs and highs[-1] is not None else price,
+            "low": round(lows[-1], 2) if lows and lows[-1] is not None else price,
+            "volume": int(volumes[-1]) if volumes and volumes[-1] is not None else 0,
+            "market_cap": None,
+            "pe_ratio": None,
+            "change_pct": change_pct,
+            "currency": meta.get("currency", "USD"),
+            "exchange": meta.get("exchangeName", "NASDAQ"),
+        }
+    except Exception as exc:
+        print(f"  {ticker}: error — {exc}")
+        return None
+
 
 async def seed():
-    async with AsyncSessionLocal() as session:
-        now = datetime.now(timezone.utc)
-        rows = []
-        for ticker, name, sector, price, chg in STOCKS:
-            noise = random.uniform(-0.5, 0.5)
-            p = round(price * (1 + noise/100), 2)
-            rows.append(FinancialSnapshot(
+    now = datetime.now(timezone.utc)
+    print(f"[seed_fin] Fetching real prices from Yahoo Finance chart API...")
+    snapshots = []
+    with httpx.Client(headers=HEADERS, follow_redirects=True, timeout=15.0) as client:
+        for ticker, company, sector in WATCHLIST:
+            data = _fetch_chart(client, ticker, company, sector)
+            if data is None:
+                continue
+            snapshots.append(FinancialSnapshot(
                 id=uuid.uuid4(),
-                ticker=ticker,
-                company_name=name,
-                sector=sector,
-                price=p,
-                open_price=round(p * 0.998, 2),
-                high=round(p * 1.012, 2),
-                low=round(p * 0.989, 2),
-                volume=random.randint(1_000_000, 80_000_000),
-                market_cap=MCAPS.get(ticker),
-                pe_ratio=round(random.uniform(18, 65), 1),
-                change_pct=round(chg + random.uniform(-0.3, 0.3), 2),
-                currency="USD",
-                exchange="NASDAQ",
                 snapshot_at=now,
+                **data,
             ))
-        session.add_all(rows)
+            print(f"  {ticker}: ${data['price']} ({data['change_pct']:+.2f}%)")
+            time.sleep(0.5)
+
+    if not snapshots:
+        print("[seed_fin] No snapshots built — check output above")
+        return
+
+    async with AsyncSessionLocal() as session:
+        session.add_all(snapshots)
         await session.commit()
-        print(f"Seeded {len(rows)} financial snapshots")
+        print(f"[seed_fin] Seeded {len(snapshots)} financial snapshots with REAL data")
 
 asyncio.run(seed())

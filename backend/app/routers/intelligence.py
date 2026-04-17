@@ -77,3 +77,14 @@ async def stats(db: AsyncSession = Depends(get_db)):
         "by_type": {t: c for t, c in by_type},
         "top_countries": {c: n for c, n in by_country},
     }
+
+
+@router.get("/sources")
+async def list_sources(db: AsyncSession = Depends(get_db)):
+    """Return distinct source names with article counts."""
+    rows = (await db.execute(
+        select(IntelligenceEvent.source_name, func.count())
+        .group_by(IntelligenceEvent.source_name)
+        .order_by(func.count().desc())
+    )).all()
+    return {"sources": [{"name": n, "count": c} for n, c in rows]}

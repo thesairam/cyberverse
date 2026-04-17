@@ -4,4 +4,5 @@ from app.collectors.cve_collector import CVECollector
 from app.collectors.financial_collector import FinancialCollector
 from app.collectors.youtube_collector import YouTubeCollector
 from app.collectors.cert_collector import CertCollector
-__all__ = ["RSSCollector","GDELTCollector","CVECollector","FinancialCollector","YouTubeCollector","CertCollector"]
+from app.collectors.googlenews_collector import GoogleNewsCollector
+__all__ = ["RSSCollector","GDELTCollector","CVECollector","FinancialCollector","YouTubeCollector","CertCollector","GoogleNewsCollector"]

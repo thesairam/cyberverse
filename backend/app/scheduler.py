@@ -9,10 +9,10 @@ _settings = get_settings()
 
 
 async def _run_intelligence_collectors() -> None:
-    from app.collectors import RSSCollector, GDELTCollector, CertCollector
+    from app.collectors import RSSCollector, GDELTCollector, CertCollector, GoogleNewsCollector
     from app.normalizer import upsert_events, upsert_certifications
     async with AsyncSessionLocal() as session:
-        for Cls in (RSSCollector, GDELTCollector):
+        for Cls in (RSSCollector, GDELTCollector, GoogleNewsCollector):
             try:
                 rows = await Cls().collect()
                 n = await upsert_events(session, rows)

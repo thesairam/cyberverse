@@ -8,6 +8,7 @@ export const intelligenceApi = {
   top(n = 10)                             { return http.get<IntelligenceEvent[]>("/intelligence/top", { params: { n } }); },
   map(params?: Record<string, unknown>)   { return http.get<IntelligenceEvent[]>("/intelligence/map", { params }); },
   stats()                                 { return http.get<DashboardStats>("/intelligence/stats"); },
+  sources()                               { return http.get<{ sources: { name: string; count: number }[] }>("/intelligence/sources"); },
 };
 
 export const financialApi = {

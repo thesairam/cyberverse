@@ -19,8 +19,9 @@
       <span class="ml-auto">{{ formatDate(event.published_at) }}</span>
     </div>
     <div class="flex flex-wrap gap-1 mt-2">
-      <span v-for="tag in event.category_tags.slice(0,4)" :key="tag"
-        class="text-xs px-1.5 py-0.5 bg-cyber-700 text-gray-400 rounded">{{ tag }}</span>
+      <span v-for="tag in event.category_tags.slice(0,5)" :key="tag"
+        @click.prevent="$emit('tagClick', tag)"
+        class="text-xs px-1.5 py-0.5 bg-cyber-700 text-gray-400 rounded hover:bg-cyber-accent/20 hover:text-cyber-accent cursor-pointer transition-colors">{{ tag }}</span>
     </div>
   </a>
 </template>
@@ -29,6 +30,7 @@ import { formatDistanceToNow } from "date-fns";
 import EventTypeBadge from "@/components/ui/EventTypeBadge.vue";
 import type { IntelligenceEvent } from "@/types";
 defineProps<{ event: IntelligenceEvent }>();
+defineEmits<{ tagClick: [tag: string] }>();
 function formatDate(d?: string) {
   if (!d) return "—";
   try { return formatDistanceToNow(new Date(d), { addSuffix: true }); }
