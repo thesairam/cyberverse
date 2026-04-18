@@ -15,7 +15,11 @@
            class="panel hover:border-yellow-400/40 transition-all cursor-pointer" @click="loadChart(s.ticker)">
         <div class="flex items-start justify-between">
           <div>
-            <p class="text-xs text-gray-500 uppercase">{{ s.ticker }}</p>
+            <a :href="`https://finance.yahoo.com/quote/${s.ticker}`" target="_blank" rel="noopener noreferrer"
+              class="text-xs uppercase text-cyber-400 hover:text-cyber-300 hover:underline transition-colors"
+              @click.stop>
+              {{ s.ticker }} ↗
+            </a>
             <p class="text-lg font-bold font-mono">${{ s.price?.toFixed(2) ?? "—" }}</p>
           </div>
           <span class="badge text-xs font-mono" :class="(s.change_pct??0)>=0 ? 'bg-green-500/20 text-cyber-green' : 'bg-red-500/20 text-cyber-red'">
