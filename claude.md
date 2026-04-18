@@ -107,3 +107,7 @@ NGINX → serves SPA, proxies /api/* to backend
 - **Graceful degradation** — one collector failing doesn't block others
 - **Dark cyber theme** (gray-950 + teal/cyan accents)
 - **Polling-based** updates (REST, no WebSocket/SSE)
+
+IMPORTANT!
+
+If I am asking to fix a bug or append a feature, ensure to work only that specific task and never break/build anything else or soemthing that affects other features. 
