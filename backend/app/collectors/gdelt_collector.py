@@ -49,6 +49,14 @@ QUERIES = [
     ("Singapore cyber security",            ["singapore", "cybersecurity"]),
     ("South Korea cyber attack",            ["south-korea", "cybersecurity", "attack"]),
     ("China cyber threat",                  ["china", "apt", "espionage"]),
+    # ── Company-specific ────────────────────────────────────────────────────
+    ("BasicFit fitness",                    ["basicfit", "fitness", "europe"]),
+    ("Basic-Fit gym",                       ["basicfit", "gym", "europe"]),
+    ("ASML semiconductor",                  ["asml", "semiconductor", "lithography"]),
+    ("ASML cybersecurity compliance",       ["asml", "cybersecurity", "compliance"]),
+    ("ASML artificial intelligence chip",   ["asml", "ai", "semiconductor"]),
+    ("ASML supply chain technology",        ["asml", "supply-chain", "technology"]),
+    ("ASML EUV lithography",                ["asml", "euv", "semiconductor"]),
 ]
 
 

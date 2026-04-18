@@ -160,95 +160,6 @@
         </div>
       </div>
 
-      <!-- ROW 1: DASHBOARD HIGHLIGHTS -->
-      <div class="flex border-b border-cyber-600" style="flex:3 1 0%;min-height:0">
-
-        <!-- Top Impact Events -->
-        <div class="flex-[2] bg-cyber-900 flex flex-col overflow-hidden min-h-0 border-r border-cyber-600">
-          <div class="flex items-center justify-between px-3 py-1 border-b border-cyber-600 flex-shrink-0">
-            <span class="text-xs font-bold text-orange-400 uppercase tracking-wider flex items-center gap-1.5">
-              <Zap class="w-3 h-3" /> Top Impact
-            </span>
-            <span class="text-xs text-gray-600">top 10</span>
-          </div>
-          <div class="flex-1 overflow-y-auto scrollbar-thin p-2 space-y-1 min-h-0">
-            <a v-for="ev in intelStore.topEvents" :key="ev.id"
-              :href="ev.source_url" target="_blank" rel="noopener"
-              class="flex items-start gap-2 p-1.5 rounded-lg hover:bg-cyber-700/60 transition-all group">
-              <span class="text-xs font-bold flex-shrink-0 w-7 text-center rounded py-0.5"
-                :class="ev.impact_score >= 7 ? 'bg-red-500/20 text-red-400' : ev.impact_score >= 4 ? 'bg-yellow-500/20 text-yellow-400' : 'bg-gray-700 text-gray-400'">
-                {{ ev.impact_score.toFixed(1) }}
-              </span>
-              <div class="flex-1 min-w-0">
-                <h4 class="text-xs text-gray-200 group-hover:text-cyber-accent transition-colors line-clamp-1">{{ ev.title }}</h4>
-                <span class="text-[10px] text-gray-500">{{ ev.source_name }}</span>
-              </div>
-            </a>
-            <div v-if="!intelStore.topEvents.length" class="text-center py-4 text-gray-600 text-xs">No data</div>
-          </div>
-        </div>
-
-        <!-- Critical CVEs -->
-        <div class="flex-[1] bg-cyber-900 flex flex-col overflow-hidden min-h-0 border-r border-cyber-600">
-          <div class="flex items-center justify-between px-3 py-1 border-b border-cyber-600 flex-shrink-0">
-            <span class="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-1.5">
-              <ShieldAlert class="w-3 h-3" /> Critical CVEs
-            </span>
-          </div>
-          <div class="flex-1 overflow-y-auto scrollbar-thin p-2 space-y-1 min-h-0">
-            <div v-for="t in threatStore.critical" :key="t.id"
-              class="flex items-start gap-2 p-1.5 rounded-lg hover:bg-cyber-700/60 transition-all">
-              <ThreatBadge :severity="t.severity" :cvss="t.cvss_score ?? undefined" />
-              <div class="flex-1 min-w-0">
-                <span class="text-xs text-cyber-accent font-mono">{{ t.indicator_id }}</span>
-                <p class="text-[10px] text-gray-400 line-clamp-1">{{ t.title }}</p>
-              </div>
-            </div>
-            <div v-if="!threatStore.critical.length" class="text-center py-4 text-gray-600 text-xs">No critical CVEs</div>
-          </div>
-        </div>
-
-        <!-- Market Movers + Stats -->
-        <div class="flex-[1] bg-cyber-900 flex flex-col overflow-hidden min-h-0">
-          <div class="flex items-center justify-between px-3 py-1 border-b border-cyber-600 flex-shrink-0">
-            <span class="text-xs font-bold text-yellow-400 uppercase tracking-wider flex items-center gap-1.5">
-              <TrendingUp class="w-3 h-3" /> Movers & Stats
-            </span>
-          </div>
-          <div class="flex-1 overflow-y-auto scrollbar-thin p-2 min-h-0">
-            <!-- Gainers -->
-            <div class="mb-2">
-              <span class="text-[10px] text-cyber-green uppercase tracking-wider font-bold">Gainers</span>
-              <div v-for="s in finStore.gainers.slice(0, 3)" :key="'g-'+s.ticker"
-                class="flex items-center justify-between py-0.5 text-xs">
-                <span class="font-mono font-bold text-gray-300">{{ s.ticker }}</span>
-                <span class="text-cyber-green font-mono font-bold">+{{ (s.change_pct ?? 0).toFixed(2) }}%</span>
-              </div>
-            </div>
-            <!-- Losers -->
-            <div class="mb-2">
-              <span class="text-[10px] text-cyber-red uppercase tracking-wider font-bold">Losers</span>
-              <div v-for="s in finStore.losers.slice(0, 3)" :key="'l-'+s.ticker"
-                class="flex items-center justify-between py-0.5 text-xs">
-                <span class="font-mono font-bold text-gray-300">{{ s.ticker }}</span>
-                <span class="text-cyber-red font-mono font-bold">{{ (s.change_pct ?? 0).toFixed(2) }}%</span>
-              </div>
-            </div>
-            <!-- Event Type Breakdown -->
-            <div>
-              <span class="text-[10px] text-gray-500 uppercase tracking-wider font-bold">By Type</span>
-              <div v-if="intelStore.stats?.by_type" class="space-y-0.5 mt-0.5">
-                <div v-for="(count, type) in intelStore.stats.by_type" :key="type"
-                  class="flex items-center justify-between text-xs">
-                  <span class="text-gray-400">{{ type }}</span>
-                  <span class="text-white font-mono font-bold">{{ count }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- ROW 2: MAP -->
       <div class="bg-cyber-900 flex flex-col overflow-hidden border-b border-cyber-600" style="flex:2.5 1 0%;min-height:0">
         <div class="flex items-center justify-between px-3 py-1 border-b border-cyber-600 flex-shrink-0">
@@ -390,7 +301,7 @@
               <TrendingUp class="w-3 h-3" /> Financial
             </span>
             <div class="flex gap-1">
-              <button v-for="s in ['', 'cybersecurity', 'ai']" :key="s" @click="filterSector(s)"
+              <button v-for="s in ['', 'cybersecurity', 'ai', 'semiconductor', 'fitness']" :key="s" @click="filterSector(s)"
                 :class="['px-1.5 py-0.5 text-[10px] rounded transition-colors',
                   activeSector === s ? 'bg-yellow-400/20 text-yellow-400' : 'text-gray-500 hover:text-gray-300']">
                 {{ s || 'All' }}
@@ -426,7 +337,7 @@
         </div>
 
         <!-- Certifications Panel -->
-        <div class="flex-1 bg-cyber-900 flex flex-col overflow-hidden min-h-0">
+        <div class="flex-1 bg-cyber-900 flex flex-col overflow-hidden min-h-0 border-r border-cyber-600">
           <div class="flex items-center justify-between px-3 py-1 border-b border-cyber-600 flex-shrink-0">
             <span class="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5">
               <Award class="w-3 h-3" /> Certifications
@@ -456,6 +367,34 @@
             <div v-if="!certItems.length" class="text-center py-6 text-gray-600 text-xs">No updates</div>
           </div>
         </div>
+
+        <!-- ASML Intelligence Panel -->
+        <div class="flex-1 bg-cyber-900 flex flex-col overflow-hidden min-h-0">
+          <div class="flex items-center justify-between px-3 py-1 border-b border-cyber-600 flex-shrink-0">
+            <span class="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
+              <Cpu class="w-3 h-3" /> ASML Intel
+            </span>
+            <span class="text-xs text-gray-600">{{ asmlEvents.length }} articles</span>
+          </div>
+          <div class="flex-1 overflow-y-auto scrollbar-thin p-2 space-y-1 min-h-0">
+            <a v-for="ev in asmlEvents" :key="ev.id"
+              :href="ev.source_url" target="_blank" rel="noopener"
+              class="flex items-start gap-2 p-1.5 rounded-lg hover:bg-cyber-700/60 transition-all group">
+              <span class="text-xs font-bold flex-shrink-0 w-7 text-center rounded py-0.5"
+                :class="ev.impact_score >= 7 ? 'bg-red-500/20 text-red-400' : ev.impact_score >= 4 ? 'bg-yellow-500/20 text-yellow-400' : 'bg-sky-500/20 text-sky-400'">
+                {{ ev.impact_score.toFixed(1) }}
+              </span>
+              <div class="flex-1 min-w-0">
+                <h4 class="text-xs text-gray-200 group-hover:text-sky-400 transition-colors line-clamp-2">{{ ev.title }}</h4>
+                <div class="flex items-center gap-1.5 mt-0.5">
+                  <span class="text-[10px] text-gray-500">{{ ev.source_name }}</span>
+                  <span v-if="ev.published_at" class="text-[10px] text-gray-600">{{ fmtCertDate(ev.published_at) }}</span>
+                </div>
+              </div>
+            </a>
+            <div v-if="!asmlEvents.length" class="text-center py-6 text-gray-600 text-xs">No ASML news yet — data populates on next collection cycle</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -472,7 +411,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { format } from 'date-fns'
 import {
   Shield, Search, RefreshCw, Globe, Newspaper, ShieldAlert,
-  TrendingUp, Radio, Award, Zap
+  TrendingUp, Radio, Award, Zap, Cpu
 } from 'lucide-vue-next'
 
 import WorldMap from '@/components/map/WorldMap.vue'
@@ -483,8 +422,8 @@ import { useIntelligenceStore } from '@/stores/intelligence'
 import { useFinancialStore } from '@/stores/financial'
 import { useThreatsStore } from '@/stores/threats'
 import { useStreamsStore } from '@/stores/streams'
-import { certificationsApi } from '@/services/api'
-import type { CertificationUpdate } from '@/types'
+import { certificationsApi, intelligenceApi } from '@/services/api'
+import type { CertificationUpdate, IntelligenceEvent } from '@/types'
 
 // ── Stores ───────────────────────────────────────────────────
 const intelStore = useIntelligenceStore()
@@ -571,6 +510,18 @@ function fmtCertDate(d: string) {
   try { return format(new Date(d), 'MMM d, yyyy') } catch { return '—' }
 }
 
+// ── ASML panel ───────────────────────────────────────────────
+const asmlEvents = ref<IntelligenceEvent[]>([])
+
+async function loadAsmlNews() {
+  try {
+    const { data } = await intelligenceApi.list({ search: 'ASML', page_size: 50, page: 1 })
+    asmlEvents.value = data.items
+  } catch (e) {
+    console.error('[ASML] fetch error:', e)
+  }
+}
+
 // ── Search ───────────────────────────────────────────────────
 function doSearch() {
   if (!searchQuery.value.trim()) return
@@ -594,6 +545,7 @@ async function refreshAll() {
     threatStore.fetchCritical(),
     streamStore.fetchStreams(liveOnly.value),
     loadCerts(),
+    loadAsmlNews(),
   ])
   refreshing.value = false
 }
@@ -619,6 +571,7 @@ onMounted(async () => {
     threatStore.fetchCritical(),
     streamStore.fetchStreams(),
     loadCerts(),
+    loadAsmlNews(),
   ])
 
   const bodiesRes = await certBodiesReq

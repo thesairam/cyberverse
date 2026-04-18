@@ -45,6 +45,15 @@ CYBER_QUERIES: list[tuple[str, list[str]]] = [
     # Malware & Exploits
     ("malware trojan backdoor",               ["malware", "trojan"]),
     ("exploit kit vulnerability",             ["exploit", "vulnerability"]),
+    # Company-specific
+    ("BasicFit news",                         ["basicfit", "fitness"]),
+    ("Basic-Fit gym Europe",                  ["basicfit", "gym", "europe"]),
+    ("ASML semiconductor news",               ["asml", "semiconductor"]),
+    ("ASML cybersecurity compliance",         ["asml", "cybersecurity", "compliance"]),
+    ("ASML artificial intelligence",          ["asml", "ai"]),
+    ("ASML EUV lithography technology",       ["asml", "euv", "lithography"]),
+    ("ASML supply chain chip",                ["asml", "supply-chain", "chip"]),
+    ("ASML earnings stock",                   ["asml", "earnings", "stock"]),
 ]
 
 GOOGLE_NEWS_RSS = "https://news.google.com/rss/search"

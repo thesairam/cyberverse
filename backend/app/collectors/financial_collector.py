@@ -27,6 +27,8 @@ WATCHLIST: list[tuple[str, str, str]] = [
     ("AMZN",  "Amazon",               "ai"),
     ("PLTR",  "Palantir",              "ai"),
     ("AI",    "C3.ai",                 "ai"),
+    ("ASML",  "ASML Holding",           "semiconductor"),
+    ("BFIT.AS", "Basic-Fit",            "fitness"),
 ]
 
 # Yahoo v8 chart API — lighter than v10 quoteSummary, less prone to 429s
