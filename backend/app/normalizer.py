@@ -173,6 +173,14 @@ async def upsert_events(session: AsyncSession, rows: list[dict[str, Any]]) -> in
         raw.setdefault("impact_score", score_impact(title, summary, raw.get("category_tags", [])))
         raw["updated_at"] = _now()
         enriched.append(_clean(raw, IntelligenceEvent))
+    # pg_insert multi-values requires every dict to expose the same keys —
+    # otherwise SQLAlchemy raises CompileError on the missing column's bindparam.
+    all_keys: set[str] = set()
+    for r in enriched:
+        all_keys |= r.keys()
+    for r in enriched:
+        for k in all_keys:
+            r.setdefault(k, None)
     stmt = pg_insert(IntelligenceEvent).values(enriched)
     stmt = stmt.on_conflict_do_update(
         index_elements=["source_url"],
